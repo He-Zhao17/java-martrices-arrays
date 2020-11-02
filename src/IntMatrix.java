@@ -11,6 +11,13 @@ public class IntMatrix {
         matrix = new int[rows][cols];
     }
 
+    public void setMatrix(int[][] setmatrix) {
+        matrix = setmatrix;
+    }
+    public int[][] getMatrix(){
+        return matrix;
+    }
+
     /**
      * Return the element at [row, col]. Throw an IllegalArgumentException if the input is invalid.
      * @param row
@@ -18,7 +25,11 @@ public class IntMatrix {
      * @return
      */
     public int get(int row, int col) {
-
+        if (row > 0 && row < matrix.length && col > 0 && col < matrix[0].length) {
+            return matrix[row - 1][col - 1];
+        } else {
+            throw new IllegalArgumentException("Error. Please input the correct row and col.");
+        }
     }
 
     /**
@@ -28,8 +39,13 @@ public class IntMatrix {
      * @param value
      */
     public void set(int row, int col, int value) {
+        if (row < 1 || row > matrix.length || col < 1 || col > matrix[0].length) {
+            throw new IllegalArgumentException("Error. Please input correctly.");
+        } else {
+            matrix[row - 1][col - 1] = value;
+        }
 
-   }
+    }
 
     @Override
     public String toString() {
@@ -37,24 +53,37 @@ public class IntMatrix {
                 "matrix=" + Arrays.toString(matrix) +
                 '}';
     }
-/**  return an array of integers containing the elements of row r.
+    /**  return an array of integers containing the elements of row r.
      * Throw an IllegalArgumentException if the input is invalid.
      * @param row
      * @param col
-    * @return
+     * @return
      */
     public int[] getRow(int r) {
+        if (r < 1 || r > matrix.length) {
+            throw new IllegalArgumentException("Error. Please input correctly.");
+        } else {
+            return matrix[r-1];
+        }
 
     }
-/**  return an array of integers containing the elements of column c.
- * Throw an IllegalArgumentException if the input is invalid.
- * @param row
- * @param col
- * @return
-            */
+    /**  return an array of integers containing the elements of column c.
+     * Throw an IllegalArgumentException if the input is invalid.
+     * @param row
+     * @param col
+     * @return
+     */
 
     public int[] getCol(int c) {
-
+        if (c < 1 || c > matrix[0].length) {
+            throw new IllegalArgumentException("Error. Please input correctly.");
+        } else {
+            int[] k = new int[matrix.length];
+            for (int i = 0; i < matrix.length; i++) {
+                k[i] = matrix[i][c-1];
+            }
+            return k;
+        }
     }
 
     /**
@@ -68,6 +97,17 @@ public class IntMatrix {
      */
 
     public IntMatrix add(IntMatrix otherMatrix) {
+        if (otherMatrix.matrix.length == this.matrix.length && otherMatrix.matrix[0].length == this.matrix[0].length) {
+            IntMatrix k = new IntMatrix(this.matrix.length, this.matrix[0].length);
+            for (int i = 0; i < this.matrix.length; i++) {
+                for (int j = 0; j < this.matrix[0].length; j++) {
+                    k.matrix[i][j] = this.matrix[i][j] + otherMatrix.matrix[i][j];
+                }
+            }
+            return k;
+        } else {
+            throw new IllegalArgumentException("Error. Please input a same-size matrix.");
+        }
 
     }
 
@@ -82,7 +122,13 @@ public class IntMatrix {
      */
 
     public IntMatrix multiply(int scalar) {
-
+        IntMatrix k = new IntMatrix(this.matrix.length, this.matrix[0].length);
+        for (int i = 0; i < this.matrix.length; i++) {
+            for (int j = 0; j < this.matrix[0].length; j++) {
+                k.matrix[i][j] = this.matrix[i][j] * scalar;
+            }
+        }
+        return k;
     }
 
     /**
@@ -96,7 +142,22 @@ public class IntMatrix {
      * @return
      */
     public IntMatrix multiply(IntMatrix otherMatrix) {
+        if (otherMatrix.matrix.length == this.matrix[0].length) {
+            IntMatrix k = new IntMatrix(this.matrix.length, otherMatrix.matrix[0].length);
+            for (int i = 0; i < this.matrix.length; i++) {
+                for (int j = 0; j < otherMatrix.matrix[0].length; j++) {
+                    int mid = 0;
+                    for (int l = 0; l < this.matrix[0].length; l++) {
+                        mid += this.matrix[i][l] * otherMatrix.matrix[l][j];
+                    }
+                    k.matrix[i][j] = mid;
+                }
+            }
+            return k;
 
+        } else {
+            throw new IllegalArgumentException("Error. Please input a valid matrix.");
+        }
     }
 
     /**
@@ -107,9 +168,14 @@ public class IntMatrix {
      * @return
      */
     public IntMatrix transpose() {
-
+        IntMatrix k = new IntMatrix(matrix[0].length, matrix.length);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                k.matrix[j][i] = matrix[i][j];
+            }
+        }
+        return k;
     }
-
 }
 
 
