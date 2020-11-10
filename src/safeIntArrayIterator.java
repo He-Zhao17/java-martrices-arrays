@@ -11,6 +11,11 @@ public class safeIntArrayIterator implements Iterator<Integer> {
         counter = 1;
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
+
     /* you do this part. */
     @Override
     public boolean hasNext() {

@@ -50,7 +50,7 @@ public class IntMatrix {
     @Override
     public String toString() {
         return "IntMatrix{" +
-                "matrix=" + Arrays.toString(matrix) +
+                "matrix=" + Arrays.deepToString(matrix) +
                 '}';
     }
     /**  return an array of integers containing the elements of row r.
@@ -176,6 +176,7 @@ public class IntMatrix {
         }
         return k;
     }
+
 }
 
 
